@@ -1,16 +1,19 @@
 #include "raylib.h"
 #include "Constantes.h"
+#include "Juego.h"
 
 int main() {
 
     InitWindow(anchoP, altoP, "TP Final - ArkaPOO - Blas Ignacio Chiapero");
     SetTargetFPS(60);
 
+    Juego juego;
+
     while (!WindowShouldClose()) {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawText("Prueba Ventana", 190, 200, 20, BLACK);
-        EndDrawing();
+        
+        juego.Actualizar();
+        juego.Dibujar();
+
     }
 
     CloseWindow();
