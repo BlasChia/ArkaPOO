@@ -5,6 +5,7 @@
       "name": "Debug raylib",
       "type": "cppdbg",
       "request": "launch",
+      "preLaunchTask": "Build raylib",
       "program": "${workspaceFolder}/main.exe",
       "args": [],
       "stopAtEntry": false,
