@@ -24,6 +24,7 @@ private:
     
     Proyectil* proyectil = nullptr;
     Bloque* bloques[maxBloques];
+    int puntaje;
 
     void Inicializar() {
 
@@ -60,6 +61,30 @@ private:
 
     }
 
+    void ImpactoProyConBloques() {
+
+        for (int i = 0; i < maxBloques; i++) {
+
+            if (bloques[i] == nullptr) continue;
+            if (!proyectil->ImpactaCon(bloques[i]->ObtRectangulo())) continue;
+
+            proyectil->ReboteEnBloque(bloques[i]->ObtRectangulo());
+            bloques[i]->EsImpactado();
+
+            if (!bloques[i]->Activo()) {
+
+                puntaje += bloques[i]->ObtPuntos();
+                delete bloques[i];
+                bloques[i] = nullptr;
+
+            }
+
+            return;
+
+        }
+
+    }
+
     void ActualizarJuego() {
 
         jugador.Actualizar();
@@ -70,6 +95,8 @@ private:
 
             if (proyectil->ImpactaCon(jugador.ObtRectangulo()))
                 proyectil->ReboteEnJugador(jugador.ObtRectangulo());
+
+            ImpactoProyConBloques();
 
             if (!proyectil->Activo()) {
 
@@ -88,6 +115,7 @@ private:
         if (proyectil != nullptr) proyectil->Dibujar();
         for (int i = 0; i < maxBloques; i++)
             if (bloques[i] != nullptr) bloques[i]->Dibujar();
+        DrawText(TextFormat("Puntos: %d", puntaje), 10, 10, 20, WHITE);
 
     }
 
@@ -96,6 +124,7 @@ public:
     Juego() {
 
         for (int i = 0; i < maxBloques; i++) bloques[i] = nullptr;
+        puntaje = 0;
         CreacionNivel();
         NuevoProyectil();
 
