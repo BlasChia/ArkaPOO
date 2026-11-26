@@ -5,14 +5,16 @@
 #include "Proyectil.h"
 #include "Bloque.h"
 #include "Bloque1HP.h"
+#include "Bloque3HP.h"
+#include "BloqueIndest.h"
 
 const char* const Nivel1[filasBloques] = {
 
-    "NNNNNNNNNN",
-    "NNNNNNNNNN",
-    "NNNNNNNNNN",
-    "NNNNNNNNNN",
-    "NNNNNNNNNN"
+    "1331111331",
+    "1111001111",
+    "3311111133",
+    "0111111110",
+    "1111111111"
 
 };
 
@@ -48,7 +50,11 @@ private:
 
                 switch (Nivel1[fila][colum]) {
 
-                    case 'N': bloques[i] = new Bloque1HP(xBloque, yBloque); 
+                    case '1': bloques[i] = new Bloque1HP(xBloque, yBloque); 
+                    break;
+                    case '3': bloques[i] = new Bloque3HP(xBloque, yBloque);
+                    break;
+                    case '0': bloques[i] = new BloqueIndest(xBloque, yBloque);
                     break;
                     default: bloques[i] = nullptr;
                     break;
