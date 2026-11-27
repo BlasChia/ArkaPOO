@@ -49,7 +49,7 @@ public:
 
     }
 
-    virtual bool EsDestruible() {
+    virtual bool EsDestructible() {
 
         return true;
 

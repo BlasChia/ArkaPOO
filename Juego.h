@@ -27,10 +27,32 @@ private:
     Proyectil* proyectil = nullptr;
     Bloque* bloques[maxBloques];
     int puntaje;
+    int estado;
 
     void Inicializar() {
 
+        delete proyectil;
+        proyectil = nullptr;
+        for (int i = 0; i < maxBloques; i++) {
+
+            delete bloques[i];
+            bloques[i] = nullptr;
+
+        }
+
         jugador = Jugador();
+        puntaje = 0;
+        CreacionNivel();
+        NuevoProyectil();
+        estado = estJugando;
+
+    }
+
+    bool HayBloques() {
+
+        for (int i = 0; i < maxBloques; i++)
+            if (bloques[i] != nullptr && bloques[i]->EsDestructible()) return true;
+        return false;
 
     }
 
@@ -113,6 +135,10 @@ private:
 
         }
 
+        if (proyectil == nullptr) estado = estDerrota;
+
+        else if (!HayBloques()) estado = estVictoria;
+
     }
 
     void DibujarJuego() {
@@ -125,15 +151,29 @@ private:
 
     }
 
+    void DibujarPantFinal() {
+
+        const char* titulo = "Derrota";
+        Color color = RED;
+        if (estado == estVictoria) {
+
+            titulo = "Victoria";
+            color = GREEN;
+
+        }
+
+        DrawText(titulo, (anchoP - MeasureText(titulo, 60)) / 2, 200, 60, color);
+        DrawText(TextFormat("Puntos: %d", puntaje), 330, 300, 30, WHITE);
+        DrawText("Presiona R Para Reiniciar", 250, 380, 25, LIGHTGRAY);
+
+    }
+
 public:
 
     Juego() {
 
         for (int i = 0; i < maxBloques; i++) bloques[i] = nullptr;
-        puntaje = 0;
-        CreacionNivel();
-        NuevoProyectil();
-
+        Inicializar();
     }
 
     ~Juego() {
@@ -145,7 +185,9 @@ public:
 
     void Actualizar() {
 
-        ActualizarJuego();
+        if (estado == estJugando) ActualizarJuego();
+
+        else if (IsKeyPressed(KEY_R)) Inicializar();
 
     }
 
@@ -153,7 +195,8 @@ public:
 
         BeginDrawing();
         ClearBackground(BLACK);
-        DibujarJuego();
+        if (estado == estJugando) DibujarJuego();
+        else DibujarPantFinal();
         EndDrawing();
 
     }

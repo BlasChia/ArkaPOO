@@ -14,3 +14,7 @@ const float distEntreBloques = 5;
 
 const int maxProyectiles = 15;
 const int maxBloques = filasBloques * columBloques;
+
+const int estJugando = 0;
+const int estVictoria = 1;
+const int estDerrota = 2;
